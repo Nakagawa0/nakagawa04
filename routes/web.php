@@ -40,4 +40,7 @@ Route::post('/user_ingredients', [UserIngredientController::class, 'store'])->na
 Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
 Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
 
+Route::get('/nutrient', [RecipeController::class, 'nutrient'])->name('recipes.nutrient');
+Route::post('/nutrientSearch',[RecipeController::class, 'nutrientSearch'])->name('recipes.nutrientSearch');
+
 require __DIR__.'/auth.php';
