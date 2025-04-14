@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->integer('colorie');
+            $table->integer('calorie');
             $table->text('instruction');
             $table->decimal('protein', 8, 2);
             $table->decimal('fat', 8, 2);
