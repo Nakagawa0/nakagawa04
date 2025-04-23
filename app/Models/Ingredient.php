@@ -15,4 +15,9 @@ class Ingredient extends Model
         'fat',
         'carbohydrate',
     ];
+
+    public function recipes()
+    {
+        return $this->belongsToMany(Recipe::class);
+    }
 }

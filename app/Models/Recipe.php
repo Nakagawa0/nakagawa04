@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Ingredient;
 
 class Recipe extends Model
 {
@@ -18,4 +19,10 @@ class Recipe extends Model
         'fat',
         'carbohydrate',
     ];
+
+    public function ingredients()
+    {
+        return $this->belongsTomany(Ingredient::class); //多対多
+    
+    }
 }
