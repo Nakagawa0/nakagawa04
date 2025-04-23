@@ -6,15 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Recipe;
 use App\Models\Ingredient;
-
-
-
+use App\Models\RecipeIngredient;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Record;
 
 class RecipeController extends Controller
 {
     public function create()
     {
-        return view('recipes.create');
+        $ingredients = Ingredient::all(); //食材を全取得
+        return view('recipes.create', compact('ingredients')); //viewに渡す
     }
 
     public function store(Request $request)
@@ -22,22 +24,51 @@ class RecipeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'calorie' => 'required|integer',
             'instruction' => 'required|string',
-            'protein' => 'required|numeric|min:0',
-            'carbohydrate' => 'required|numeric|min:0',
+            'ingredients' => 'required|array',
         ]);
+        
+        $ingredientDatas = $request->input('ingredients');
+        $totalProtein = 0;
+        $totalFat = 0;
+        $totalCarbohydrate = 0;
+       
+        foreach ($ingredientDatas as $ingredientData) {
+            $ingredient = Ingredient::find($ingredientData['id']);
+            $weight = $ingredientData['weight'];
+
+            $totalProtein += $ingredient->protein * ($weight / 100);
+            $totalFat += $ingredient->fat * ($weight / 100);
+            $totalCarbohydrate += $ingredient->carbohydrate * ($weight / 100);
+        }
+        // 計算処理
+        $calorie = round($totalCarbohydrate * 4 + $totalProtein * 4 + $totalFat * 9);
 
         // 登録処理
-        Recipe::create([
+        $recipe = Recipe::create([
             'name' => $request->name,
             'description' => $request->description,
-            'calorie' => $request->calorie,
+            'calorie' => $calorie,
             'instruction' => $request->instruction,
-            'protein' => $request->protein,
-            'fat' => $request->fat,
-            'carbohydrate' => $request->carbohydrate,
+            'protein' => $totalProtein,
+            'fat' => $totalFat,
+            'carbohydrate' => $totalCarbohydrate,
         ]);
+        foreach($ingredientDatas as $ingredientData) {
+            
+            $recipeIngredients = RecipeIngredient::create([
+                'recipe_id' => (int)$recipe->id,
+                'ingredient_id' => (int)$ingredientData['id'],
+                'weight' => $ingredientData['weight']
+            ]);
+        }
+        $user= Auth::id();
+        $record = Record::create([
+            'recipe_id' => (int)$recipe->id,
+            'user_id' => $user,
+            'meal_date' => Carbon::today()->toDateString()
+        ]);
+
 
         return redirect()->route('recipes.create')->with('success', 'レシピを登録しました');
     }
@@ -46,7 +77,7 @@ class RecipeController extends Controller
     {
         return view('recipes.nutrient');
     }
-
+ 
     public function nutrientSearch(Request $request)
     {
         //受け取った食材名を$foodに入れる
