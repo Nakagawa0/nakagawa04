@@ -36,8 +36,9 @@ class RecipeController extends Controller
         foreach ($ingredientDatas as $ingredientData) {
             $ingredient = Ingredient::find($ingredientData['id']);
             $weight = $ingredientData['weight'];
-
-            $totalProtein += $ingredient->protein * ($weight / 100);
+            
+            //入力された量から計算
+            $totalProtein += $ingredient->protein * ($weight / 100); 
             $totalFat += $ingredient->fat * ($weight / 100);
             $totalCarbohydrate += $ingredient->carbohydrate * ($weight / 100);
         }
@@ -55,13 +56,14 @@ class RecipeController extends Controller
             'carbohydrate' => $totalCarbohydrate,
         ]);
         foreach($ingredientDatas as $ingredientData) {
-            
+            //recipe_ingredientsテーブルにレシピと食材の関係を保存
             $recipeIngredients = RecipeIngredient::create([
                 'recipe_id' => (int)$recipe->id,
                 'ingredient_id' => (int)$ingredientData['id'],
                 'weight' => $ingredientData['weight']
             ]);
         }
+        //userのrecordsテーブルに今日の食事を記録
         $user= Auth::id();
         $record = Record::create([
             'recipe_id' => (int)$recipe->id,
@@ -72,12 +74,11 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.create')->with('success', 'レシピを登録しました');
     }
-
+    //食材の栄養素を検索する
     public function nutrient()
     {
         return view('recipes.nutrient');
     }
- 
     public function nutrientSearch(Request $request)
     {
         //受け取った食材名を$foodに入れる
