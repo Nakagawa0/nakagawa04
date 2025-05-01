@@ -13,5 +13,8 @@ class Record extends Model
         'user_id',
         'meal_date',
     ];
-
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
 }
