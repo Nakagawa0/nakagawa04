@@ -100,7 +100,6 @@ class RecipeController extends Controller
             //食材名をエンドポイントに含める
             'name' => $food
         ]);
-
         //APIの検索が失敗した場合
         if (empty($response->json()[0])){
             // return dd("食品番号食材が見つかりませんでした");
