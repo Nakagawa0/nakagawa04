@@ -1,5 +1,8 @@
 <!-- charts/getting_started.blade.php -->
 
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -12,6 +15,9 @@
         <h1>{{ $formattedDate }}の栄養素バランス</h1>
         <canvas
             id="chart_getting_started"
+            style="
+                width: 50%; 
+                margin: 20px auto;"
             width="50"
             height="50"
         ></canvas>
@@ -50,5 +56,30 @@
             }
             }); 
             </script>
-        </body>  
-        </html>
+        @if (!empty($shortages))
+            <div>
+                <h2>栄養バランス</h2>
+                <ul>
+                    @foreach ($shortages as $msg)
+                        <li>{{ $msg }}が不足しています</li>
+                    @endforeach
+        @endif
+                </ul>
+            </div>
+
+            <div>
+                <h2>提案レシピ</h2>
+                <ul>
+                    @for ($i=0; $i<count($shortages); $i++)
+                        <p>{{ $shortages[$i] }}</p>
+                        @foreach ($recommendedRecipes[$i] as $recipe)
+                        <li>{{ $recipe->name }} (P: {{ $recipe->protein }}g / F: {{$recipe->fat}}g / C: {{ $recipe->carbohydrate }}g) </li>
+                        @endforeach
+                    @endfor
+                </ul>
+            </div>
+        <div style="margin-top: 30px;">
+            <a href="{{ url('/') }}" class="btn-primary">トップページに戻る</a>
+        </div>
+    </body>  
+</html>

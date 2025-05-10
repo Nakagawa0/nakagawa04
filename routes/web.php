@@ -6,6 +6,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\UserIngredientController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\SuggestedRecipeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,7 @@ use App\Http\Controllers\ChartController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('top');})->name('top');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -46,4 +45,7 @@ Route::post('/nutrientSearch',[RecipeController::class, 'nutrientSearch'])->name
 
 require __DIR__.'/auth.php';
 Route::get('/chart', [ChartController::class, 'getting_started']);
+
+Route::get('/suggested-recipes/create', [SuggestedRecipeController::class, 'create'])->name('suggested_recipes.create');
+Route::post('/suggested-recipes', [SuggestedRecipeController::class, 'store'])->name('suggested_recipes.store');
 

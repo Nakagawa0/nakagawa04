@@ -1,0 +1,142 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Figtree", sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Headings */
+h1,
+h2,
+h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #3490dc;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 144, 220, 0.2);
+}
+
+/* Buttons */
+button,
+.btn-primary {
+    background-color: #3490dc;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover,
+.btn-primary:hover {
+    background-color: #2779bd;
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+/* Hero Section */
+.hero {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* Hero overlay box */
+.hero .overlay-box {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 12px;
+    color: #fff;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons for Hero Section */
+.btn-main,
+.btn-sub {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-main {
+    background-color: #38c172; /* 緑系 */
+}
+
+.btn-main:hover {
+    background-color: #2d995b;
+    transform: translateY(-2px);
+}
+
+.btn-sub {
+    background-color: #6cb2eb; /* 青系 */
+}
+
+.btn-sub:hover {
+    background-color: #2779bd;
+    transform: translateY(-2px);
+}
