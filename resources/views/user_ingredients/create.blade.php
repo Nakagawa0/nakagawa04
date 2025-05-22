@@ -34,6 +34,10 @@
 
         <button type="submit" class="btn btn-primary">登録</button>
     </form>
+    
+    <div style="margin-top: 30px;">
+    <a href="{{ url('/') }}" class="btn-primary">トップページに戻る</a>
+</div>
 </div>
 @endsection
 

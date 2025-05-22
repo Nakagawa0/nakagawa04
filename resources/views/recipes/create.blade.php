@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2>レシピ登録</h2>
+    <h2>食事レシピ記録</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -86,6 +86,9 @@
             container.appendChild(newRow);
             ingredientIndex++;
         }
-    </script>    
+    </script> 
+    <div style="margin-top: 30px;">
+    <a href="{{ url('/') }}" class="btn-primary">トップページに戻る</a>
+    </div>   
 </div>
 @endsection
