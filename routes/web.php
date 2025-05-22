@@ -48,4 +48,3 @@ Route::get('/chart', [ChartController::class, 'getting_started']);
 
 Route::get('/suggested-recipes/create', [SuggestedRecipeController::class, 'create'])->name('suggested_recipes.create');
 Route::post('/suggested-recipes', [SuggestedRecipeController::class, 'store'])->name('suggested_recipes.store');
-

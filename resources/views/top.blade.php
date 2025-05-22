@@ -1,6 +1,6 @@
-@extends('layouts.app')
+<!-- @extends('layouts.app') -->
 
-@section('content')
+<!-- @section('content') -->
 <div style="text-align: right; margin-bottom: 20px;">
     <a href="{{ route('login') }}" class="btn-primary">ログイン</a>
     <a href="{{ route('register') }}" class="btn-primary" style="margin-left: 10px;">新規登録</a>
