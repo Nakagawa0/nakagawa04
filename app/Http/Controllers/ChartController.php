@@ -63,18 +63,44 @@ class ChartController extends Controller
                 $shortageMessages[] = ucfirst($nutrient) . 'が不足しています';
             }
         }
-        $recommendedRecipes=[];
+
+        //栄養のバランスをもとにレシピを提案
+        $nutirentBasedRecipes=[];
         if(!empty($shortages)){
             foreach ( $shortages as $shortage) {
-                $recommendedRecipes[] = Recipe::orderByDesc($shortage)->limit(3)->get();
+                $nutirentBasedRecipes[] = Recipe::orderByDesc($shortage)->limit(3)->get();
             } 
         } else{
-            $recommendedRecipes[] = Recipe::orderByDesc("calorie")->limit(3)->get(); 
+            $nutirentBasedRecipes[] = Recipe::orderByDesc("calorie")->limit(3)->get(); 
         }
+
+        // 家にある食材ベースのレシピ提案
+        $userIngredients = \App\Models\UserIngredient::where('user_id', $userId)->pluck('ingredient_id')-?toArray();
+        $allRecipes = Recipe::with('ingredients')->get();
+    
+        $scoredRecipes = [];
+        foreach ($allRecipes as $recipe) {
+            $requiredIngredients = $recips->ingredients->pluck('id')->toArray();
+            $matchCount = count(array_intersect($userIngredients, $requiredIngredients));
+            $totalRequired = count($requireedIngredients);
+            if ($totalRequired > 0) {
+                $matchRate = $matchCount / $totalRequired;
+                $scoredRecipes[] =[
+                    'recipes' => $recipe,
+                    'score' => $matchRate
+                ];
+            }
+
+        }
+        usort($scoredRecipes, fn($a, $b) => $b['score'] <=> $a['score']);
+        $ingredientBasedRecipes = array_slice(array_column($scoredRecipes, 'recipe'), 0, 3);
+
+        
 
         return view('charts.getting_started', compact(
             'totalProtein', 'totalFat', 'totalCarbohydrate',
-            'formattedDate', 'shortages', 'recommendedRecipes'));
+            'formattedDate', 'shortages', 'nutirentBasedRecipes',
+        'ingredientBasedRecipes'));
     }
 
 }
