@@ -17,5 +17,8 @@ class SuggestedRecipe extends Model
         'fat',
         'carbohydrate',
         'calorie'
+        'protein_ratio',
+        'fat_ratio',
+        'carbohydrate_ratio'
     ];
 }

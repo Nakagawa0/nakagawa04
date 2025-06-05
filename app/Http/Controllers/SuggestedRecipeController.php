@@ -26,7 +26,7 @@ class SuggestedRecipeController extends Controller
 
         $calorie = round($request->protein * 4 + $request->fat * 9 + $request->carbohydrate * 4);
 
-        SuggestedRecipe::create([
+        $SuggestedRecipe=SuggestedRecipe::create([
             'name' => $request->name,
             'description' => $request->description,
             'instruction' => $request->instruction,

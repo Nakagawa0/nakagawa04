@@ -11,7 +11,7 @@
         <p class="text-xl mb-8">毎日の食生活記録、栄養バランスを考えたレシピ提案</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{{ route('recipes.create') }}" class="btn-main">レシピを記録する</a>
-            <a href="{{ route('user_ingredients.create') }}" class="btn-sub">食材を登録する</a>
+            <a href="{{ route('user_ingredients.create') }}" class="btn-sub">家の食材を登録する</a>
             <a href="/chart" class="btn-sub">栄養バランスをみる</a> {{-- 追加ボタン --}}
         </div>
     </div>

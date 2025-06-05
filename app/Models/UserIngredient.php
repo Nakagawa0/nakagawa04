@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Models;
@@ -13,7 +12,7 @@ class UserIngredient extends Model
     protected $fillable = [
         'user_id',
         'ingredient_id',
-        'name',
+        // 'name',
         'quantity',
     ];
 }
