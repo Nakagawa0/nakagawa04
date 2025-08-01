@@ -22,7 +22,7 @@ class Recipe extends Model
 
     public function ingredients()
     {
-        return $this->belongsTomany(Ingredient::class); //多対多
-    
+        return $this->belongsTomany(Ingredient::class, 'recipe_ingredient')
+                    ->withPivot('quantity');    
     }
 }

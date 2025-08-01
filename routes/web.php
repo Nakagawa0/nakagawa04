@@ -7,6 +7,8 @@ use App\Http\Controllers\UserIngredientController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\SuggestedRecipeController;
+use App\Models\Ingredient;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ★ここが正しい位置です
+    // 'auth'ミドルウェアグループ内で、名前付きルートとして定義
+    Route::get('/ingredients/search', function (Request $request) {
+        $query = $request->input('query');
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        $ingredients = Ingredient::where('name', 'like', '%' . $query . '%')
+                                 ->orWhere('normalized_name', 'like', '%' . Ingredient::normalizeName($query) . '%')
+                                 ->limit(10)
+                                 ->get(['id', 'name']);
+
+        return response()->json($ingredients);
+    })->name('ingredients.search');
 });
 
 Route::get('/ingredients/create', [IngredientController::class, 'create'])->name('ingredients.create');

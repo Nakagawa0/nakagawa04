@@ -1,10 +1,10 @@
+@extends('layouts.app') 
 <head>
     <meta charset="UTF-8">
     <title>タイトル</title>
     <!--css-->
     <link href="{{ asset('/css/top.css') }}" rel="stylesheet" />
 </head>
-@extends('layouts.app') 
 
 @section('content')
 <div class="container">
@@ -21,6 +21,9 @@
         <div class="mb-3">
             <label for="name" class="form-label">食材名</label>
             <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+            @if ($errors->has('name'))
+                <div class="text-danger">{{ $errors->first('name') }}</div>
+            @endif
         </div>
 
         <div class="mb-3">
