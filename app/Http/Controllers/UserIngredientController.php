@@ -18,14 +18,12 @@ class UserIngredientController extends Controller
     {
         $request->validate([
             'ingredient_id' => 'required|exists:ingredients,id',
-            // 'name' => 'required|string|max:255',
             'quantity' => 'required|numeric|min:0',
         ]);
 
         UserIngredient::create([
             'user_id' => auth()->id(),
             'ingredient_id' => $request->ingredient_id,
-            // 'name' => $request->name,
             'quantity' => $request->quantity,
         ]);
 
