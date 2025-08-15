@@ -15,7 +15,12 @@
             <label for="name" class="form-label">レシピ名</label>
             <input type="text" name="name" class="form-control" required>
         </div>
-        
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="is_public" id="is_public" class="form-check-input" value="1">
+            <label for="is_public" class="form-check-label">このレシピを公開する</label>
+        </div>    
+            
         <div class="mb-3">
             <label for="description" class="form-label">説明</label>
             <textarea name="description" class="form-control" required></textarea>
