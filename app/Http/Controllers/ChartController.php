@@ -66,22 +66,30 @@ class ChartController extends Controller
         // 栄養素ベースのレシピ提案
         $nutrientBasedRecipes = [];
         if (count($shortages) > 0) {
-            foreach (array_keys($ideal) as $nutrient) {
-                if (in_array(ucfirst($nutrient) . 'が不足しています', $shortages, true)) {
-                    $nutrientBasedRecipes[] = Recipe::orderByDesc($nutrient)->limit(3)->get();
-                }
+            $shortageNames = array_map(function ($msg) { // 構文を修正
+                return str_replace(['が不足しています', ' '], '', $msg); // スペルを修正
+            }, $shortages);
+
+            $nutrientBasedRecipesQuery = Recipe::where('is_public', true);
+            foreach ($shortageNames as $nutrient) {
+                $nutrientBasedRecipesQuery->orWhere($nutrient, '>', 0);
             }
+            $nutrientBasedRecipes = $nutrientBasedRecipesQuery->limit(3)->get();
         } else {
-            $nutrientBasedRecipes[] = Recipe::orderByDesc('calorie')->limit(3)->get();
+            // 不足がない場合は、公開されたレシピの中からカロリー順で提案
+            $nutrientBasedRecipes = Recipe::where('is_public', true)->orderByDesc('calorie')->limit(3)->get();
         }
 
         // 食材マッチ率ベースのレシピ提案
         $userIngredientIds = UserIngredient::where('user_id', $userId)
             ->pluck('ingredient_id')
             ->toArray();
-        $allRecipes = Recipe::with('ingredients')->get();
+
+        // 'is_public'がtrueのレシピのみ取得
+        $allRecipes = Recipe::where('is_public', true)->with('ingredients')->get();
         $scoredRecipes = [];
 
+        // ループ変数を $recipe に修正し、$recipe->ingredients->pluck() に修正
         foreach ($allRecipes as $recipe) {
             $requiredIds = $recipe->ingredients->pluck('id')->toArray();
             $matchCount = count(array_intersect($userIngredientIds, $requiredIds));

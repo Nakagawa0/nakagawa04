@@ -26,6 +26,7 @@ class RecipeController extends Controller
             'description' => 'required|string',
             'instruction' => 'required|string',
             'ingredients' => 'required|array',
+            'is_public' => 'nullable|boolean'
         ]);
         
         $ingredientDatas = $request->input('ingredients');
@@ -54,6 +55,7 @@ class RecipeController extends Controller
             'protein' => $totalProtein,
             'fat' => $totalFat,
             'carbohydrate' => $totalCarbohydrate,
+            'is_public' => $request->has('is_public')
         ]);
         foreach($ingredientDatas as $ingredientData) {
             //recipe_ingredientsテーブルにレシピと食材の関係を保存
